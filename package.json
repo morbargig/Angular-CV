@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "kill": "sudo kill -9 $(sudo lsof -t -i:4200)",
     "heroku": "concurrently \"set HTTPS=true&&ng serve\" \"heroku local -p 3030\"",
     "noServer": "set HTTPS=true&&ng serve",
     "server": "node server",
