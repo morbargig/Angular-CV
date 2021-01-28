@@ -1,19 +1,23 @@
 <style>
-    .new-container{
+    .new-container {
         width: 100vw;
     }
+
     .header {
         text-align: center
     }
+
     body {
         font-family: Arial, Helvetica, sans-serif;
     }
+
     .topnav {
         width: 100%;
         overflow: hidden;
         background-color: #333;
         position: relative;
     }
+
     .topnav a {
         float: left;
         color: white;
@@ -73,16 +77,17 @@
 <div class="new-container">
     <div>
         <div *ngIf="changePdf">
-            <input type="file" (change)="handleImage()" />
+            <input type="file" (change)="handleImage($event)" />
             <button (click)="handleUpload()">Upload Image</button>
         </div>
         <h2 class="header text-to-center">
-            {{ pdf.language !== "HebPDF" ? "Mor Bargig CV" : ' מור ברגיג קו"ח' }}
+            {{ pdf?.language !== "HebPDF" ? "Mor Bargig CV" : ' מור ברגיג קו"ח' }}
         </h2>
         <div class="full-width font-size-16">
-            <button *ngFor="let btn of buttonsText" [class]="btn.name === pdf.language ? 'disabled' : null"
-                [name]="btn.name" [style]="pdf.language ? 'float: right;' : 'float: left;'" (click)="getPDF(btn.name)">
-                {{ pdf.language === "HebPDF" ? btn.hName : btn.eName }}
+            <button *ngFor="let btn of buttonsText" [class]="btn.name === pdf?.language ? 'disabled' : null"
+                [name]="btn.name" [style]="pdf?.language === 'HebPDF' ? 'float: right;' : 'float: left;'"
+                (click)="getPDF(btn.name)">
+                {{ pdf?.language === "HebPDF" ? btn.hName : btn.eName }}
             </button>
         </div>
         <div class="topnav">
@@ -101,20 +106,20 @@
             <ng-template #closeMenu class="full-width">
                 <a class="Portfolio" href="https://morbargig.github.io/" target="blank">
                     Portfolio <span></span>
-                    <img class="Portfolio-img" src="assets/smallMorBargigSig.png" alt="Javascript"
+                    <img class="Portfolio-img" src="assets/smallMorBargigSig.png" alt="Mor Bargig Brand"
                         [style]="'border-radius: 50%; margin-left: 0.25em height: 1em; width: 1em; vertical-align: text-bottom;'" />
                 </a>
             </ng-template>
         </div>
         <div *ngIf="isMobile() else desktopPdf">
             <!-- [height]="`${$px > 3 ? 550 * $px : 5000 * $px}px`" frameBorder="0" scrolling="yes" -->
-            <iframe title="pdf" id="pdf" name="pdf" [src]="pdf[pdf.language]" width="100%" style="height: 150vw">
+            <iframe title="pdf" id="pdf" name="pdf" [src]="url" width="100%" style="height: 150vw">
                 <p>It appears your web browser doesn't support iframes.</p>
             </iframe>
         </div>
 
         <ng-template #desktopPdf>
-            <embed id="pdf" name="pdf" type="application/pdf" [src]="pdf[pdf.language]" width="100%" height="1000px" alt="pdf"
+            <embed id="pdf" name="pdf" type="application/pdf" [src]="url" width="100%" height="1000px" alt="pdf"
                 pluginspage="http://www.adobe.com/products/acrobat/readstep2.html" background-color="0xFF525659"
                 top-toolbar-height="56" full-frame="" internalinstanceid="22" title="Mor Bargig" />
         </ng-template>

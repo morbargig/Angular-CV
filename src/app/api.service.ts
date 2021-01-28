@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
+import { environment } from 'src/environments/environment';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from "rxjs/operators";
+
 export interface Pdf {
   HebPDF?: string,
   EngPDF?: string,
@@ -12,10 +16,18 @@ export interface Pdf {
 export class ApiService {
   pdfRef: AngularFireObject<any>;   // Reference to pdf object, its an Observable too
   username: string = "mor bargig"
+  private password: string
+
   // Inject AngularFireDatabase Dependency in Constructor
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase, private storage: AngularFireStorage) {
+    this.password = environment.adminPassword
+  }
 
   // Create Student
+  verifyAdmin(password: string) {
+    return password === this.password
+  }
+
   newPdf() {
     this.pdfRef.update({
       HebPDF: '',
@@ -41,107 +53,19 @@ export class ApiService {
       upDate
     )
   }
-  uplodadPdf(uploadedImage) {
-
+  // Uploade Pdf file return Promise wich return url
+  uplodadPdf(uploadedImage: any) {
+    let name = uploadedImage.name;
+    name = `CV/${this.username}/` + name
+    const fileRef = this.storage.ref(name);
+    return new Promise<any>((resolve, reject) => {
+      const task = this.storage.upload(name, uploadedImage)
+      task.snapshotChanges().pipe(
+        finalize(() => fileRef.getDownloadURL().subscribe(
+          res => resolve(res),
+          err => reject(err))
+        )
+      ).subscribe();
+    })
   }
 }
-
-
-// class dbHandel {
-//   // Initialize Firebase
-//   constructor() {
-//     firebase.initializeApp(firebaseConfig);
-//     this.serverAlive = false
-//     this.username = "mor bargig"
-//   }
-
-//   newPdf = async () => {
-//     if (!this.serverAlive) {
-//       firebase.database().ref(`CV/${this.username}/`).set({
-//         HebPDF: '',
-//         EngPDF: '',
-//         language: 'EngPDF',
-//         linkedin: '',
-//       });
-//     } else {
-//       await axios.get(`${route}newPdf`)
-//     }
-//   }
-
-//   getPdf = async () => {
-//     // if (this.serverAlive) {
-//     //   this.serverAlive = (await axios.get(`${route}isAlive`)).data === 200
-//     // }
-//     if (!this.serverAlive) {
-//       let data
-//       await firebase.database().ref(`CV/${this.username}/`).once('value').then((snap) => {
-//         data = snap.val()
-//         // console.log(snap.val())
-//       });
-//       // console.log(data)
-//       return data
-//     } else {
-//       const res = await axios.get(`${route}getPdf`)
-//       return res.data[0]
-//     }
-//   }
-
-//   uplodadPdf = async (uploadedImage, noServerUploade = false) => {
-//     if (!this.serverAlive || noServerUploade) {
-//       try {
-
-//         const storageRef = firebase.storage().ref();
-//         const fileRef = storageRef
-//           .child(`/CV/${this.username}/${uploadedImage.name}`);
-
-//         const uploadTaskSnapshot = await fileRef.put(uploadedImage);
-
-//         return await uploadTaskSnapshot.ref.getDownloadURL();
-//       }
-//       catch (error) {
-//         console.log("ERR ===", error);
-//         alert("Image uploading failed!");
-//       }
-
-//     }
-//     else {
-//       return this.uplodadPdf(uploadedImage, noServerUploade = true)
-//       // let data = new FormData();
-//       // data.append("file", uploadedImage);
-
-//       // await axios.post(`${route}uploadPdf`, data).then(res => { // then print response status
-//       //   console.log(res.statusText)
-//       // })
-//     }
-//   }
-
-//   updatePdf = async (upDate) => {
-//     if (!this.serverAlive) {
-//       let data
-//       await firebase.database().ref(`CV/${this.username}/`).once('value').then((snap) => {
-//         data = snap.val()
-//       });
-
-//       for (let i in upDate) {
-//         if (upDate[i]) {
-//           data[i] = upDate[i]
-//         }
-//       }
-//       // console.log(data)
-//       await firebase.database().ref(`CV/${this.username}`).set({
-//         HebPDF: data.HebPDF,
-//         EngPDF: data.EngPDF,
-//         language: data.language,
-//         linkedin: data.linkedin,
-//       });
-//     } else {
-//       await axios.put(`${route}updatePdf/`, upDate)
-//     }
-//   }
-// }
-
-
-// export default new dbHandel()
-
-
-
