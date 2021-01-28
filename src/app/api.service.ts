@@ -14,7 +14,7 @@ export interface Pdf {
   providedIn: 'root'
 })
 export class ApiService {
-  pdfRef: AngularFireObject<any>;   // Reference to pdf object, its an Observable too
+  pdfRef: AngularFireObject<any>;   // Reference to pdf object, its an Observable 
   username: string = "mor bargig"
   private password: string
 
@@ -23,11 +23,12 @@ export class ApiService {
     this.password = environment.adminPassword
   }
 
-  // Create Student
+  // verify admin to edit pdf files
   verifyAdmin(password: string) {
     return password === this.password
   }
 
+  // create new pdf file if there isn't
   newPdf() {
     this.pdfRef.update({
       HebPDF: '',
