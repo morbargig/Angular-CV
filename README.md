@@ -5,7 +5,7 @@ and you can update them every time from the internet in easy way.
 
 [![Demo CountPages alpha](https://media.giphy.com/media/ReVsLYJBNg60DrEi8j/giphy.gif)](https://www.youtube.com/watch?v=AYlr8CLW-RA)
 
-you want to use this website ? you welcome, run this command `git clone https://github.com/morbargig/MB-CV.git`
+you want to use this website ? you welcome, run this command `git clone https://github.com/morbargig/Angular-CV.git`
 
 go inside the project folder `cd Angular-CV`
 
