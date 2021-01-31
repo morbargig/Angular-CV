@@ -1,27 +1,41 @@
-# NgCv
+## [Mor Bargig CV](https://mor-bargig-cv.herokuapp.com)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.1.
+web site for your Resume, so you can allway send the some CV link and your CV allways be up to date,
+and you can update them every time from the internet in easy way.
 
-## Development server
+[![Demo CountPages alpha](https://media.giphy.com/media/ReVsLYJBNg60DrEi8j/giphy.gif)](https://www.youtube.com/watch?v=AYlr8CLW-RA)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+you want to use this website ? you welcome, run this command `git clone https://github.com/morbargig/MB-CV.git`
 
-## Code scaffolding
+go inside the project folder `cd Angular-CV`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+to install all the libraries, run `npm install`
 
-## Build
+go to /src/environments/environment.prod.ts
+```javascript
+export const environment = {
+  production: true,
+  adminPassword: "???",
+  firebaseConfig: {
+    apiKey: "???",
+    authDomain: "???",
+    databaseURL: "???",
+    projectId: "???",
+    storageBucket: "???",
+    messagingSenderId: "???",
+    appId: "???"
+  }
+};
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+you need to use your own firebase configuration  SreviceApi!
 
-## Running unit tests
+to start the project localy you will need to run `npm start`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+to deploy it to github pages you will need to add GitHub-pages cli `ng add angular-cli-ghpages`
 
-## Running end-to-end tests
+and run `npm run deploy`
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+don't forget to send your CV :)
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
